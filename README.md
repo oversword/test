@@ -11,7 +11,7 @@ Put this at the top of your test file so that it will only run when the mod is e
 ```lua
 if not minetest.global_exists('test') then return end
 ```
-Add this mod as an optional dependency to you mod in `mod.conf`
+Add this mod as an optional dependency to your mod in `mod.conf`
 ```conf
 optional_depends = test
 ```
@@ -33,7 +33,7 @@ local stub = test.stub
 ### Do It!
 To run the tests you must call the `execute` function after all your tests have been defined
 ```
-execute()
+test.execute()
 ```
 
 ### Describe
@@ -76,15 +76,15 @@ end)
 You can assert that two values are equal or not equal using the two assertion methods. This will deep-match tables by value, as well as all other data types.
 The message should be the condition that's being tested, e.g. `"Color should be blue"`
 ```lua
-assert.equal( expected, received, message )
-assert.not_equal( expected, received, message )
+test.assert.equal( expected, received, message )
+test.assert.not_equal( expected, received, message )
 ```
 
 ### Expecting Errors
 You can assert that the test should throw an error, this must be called before the function that is expected to throw an error. Only one error can be expected during an `it` call, as the error will exit the function.
 The message will match error messages that include the string you have provided, you do not need to provide the entire error message. You can also provide no message to simply expect an error to occur, without specifying exactly which one.
 ```lua
-expect.error( message )
+test.expect.error( message )
 ```
 
 ### Test Sequence Callbacks
@@ -92,15 +92,19 @@ All of these must be called before the `it` tests for the time being, this shoul
 
 ```lua
 -- Will be called after each `it` test has executed
-after_each
+test.after_each(function ()
+end)
 -- Will be called before each `it` test has executed
-before_each
+test.before_each(function ()
+end)
 
 -- Will be called after all the `it` tests have been executed in this `describe` definition
-after_all
+test.after_all(function ()
+end)
 
 -- Will be called before any `it` tests have been executed in this `describe` definition
-before_all
+test.before_all(function ()
+end)
 ```
 
 ### Stub
